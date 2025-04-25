@@ -109,6 +109,41 @@
                 </div>
             </div>
         </div>
+        <!-- Now Playing Section -->
+<div class="container px-4 px-lg-5 mb-5">
+    <div class="row gx-4 gx-lg-5 justify-content-center">
+        <div class="col-md-10 col-lg-8 col-xl-7">
+            <h2 class="mb-4">Now Playing</h2>
+            <ul id="recent-tracks" class="list-unstyled"></ul>
+        </div>
+    </div>
+</div>
+
+<script>
+  const username = 'kattfarfars';
+  const apiKey = '34128edb40451a9342b4c1ea124b7bed';
+
+  fetch(`https://ws.audioscrobbler.com/2.0/?method=user.getrecenttracks&user=${username}&api_key=${apiKey}&format=json`)
+    .then(res => res.json())
+    .then(data => {
+      const list = document.getElementById('recent-tracks');
+      data.recenttracks.track.slice(0, 5).forEach(track => {
+        const item = document.createElement('li');
+        item.classList.add('mb-3');
+        item.innerHTML = `
+          <div class="d-flex align-items-center">
+            <img src="${track.image[2]['#text']}" alt="${track.name}" width="64" height="64" class="me-3 rounded">
+            <div>
+              <strong>${track.artist['#text']}</strong><br>
+              ${track.name}
+            </div>
+          </div>
+        `;
+        list.appendChild(item);
+      });
+    });
+</script>
+
         <!-- Footer-->
         <footer class="border-top">
             <div class="container px-4 px-lg-5">
